@@ -1,0 +1,23 @@
+// Define the Environment Variables
+    def gitRepoUrl = 'git@github.com:sagar-raikwar-iopshub/practice-repo-jenkins.git'
+    def branchName = '$branchName'
+
+    // Clone the Git repository
+    stage('SCM Checkout') {
+        git url: gitRepoUrl, branch: "$branchName"
+    }
+
+    // Build the Maven project
+    stage('Maven package') {
+        dir("my-app") {
+        sh 'mvn package'
+        }
+    }
+    // Deploy the Maven project
+    stage('Transfer jar file') {
+        dir("my-app") {
+            // transfer file on another vm
+            sh 'scp my-app/targert/my-app.1.jar /sagar@192.168.1.9:/home/sagar'
+        }
+    }
+}
