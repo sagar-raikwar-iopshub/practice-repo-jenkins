@@ -1,7 +1,11 @@
-// Define the Environment Variables
+pipeline {
+    agent any
+    environment{
+   
+    // Define the Environment Variables
     def gitRepoUrl = 'git@github.com:sagar-raikwar-iopshub/practice-repo-jenkins.git'
     def branchName = '$branchName'
-
+    }
     // Clone the Git repository
     stage('SCM Checkout') {
         git url: gitRepoUrl, branch: "$branchName"
@@ -20,4 +24,6 @@
             sh 'scp my-app/targert/my-app.1.jar /sagar@192.168.1.9:/home/sagar'
         }
     }
+}
+
 }
