@@ -7,9 +7,9 @@ pipeline {
     def branchName = '$branchName'
     }
     // Clone the Git repository
-    stage('SCM Checkout') {
-        git url: gitRepoUrl, branch: "$branchName"
-    }
+    //stage('SCM Checkout') {
+      //  git url: gitRepoUrl, branch: "$branchName"
+   // }
 
     // Build the Maven project
     stage('Maven package') {
