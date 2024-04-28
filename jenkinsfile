@@ -1,29 +1,35 @@
 pipeline {
     agent any
-    environment{
-   
-    // Define the Environment Variables
-    def gitRepoUrl = 'git@github.com:sagar-raikwar-iopshub/practice-repo-jenkins.git'
-    def branchName = '$branchName'
+    
+    environment {
+        // Define the Environment Variables
+        gitRepoUrl = 'https://github.com/sagar-raikwar-iopshub/myrepo.git'
+        branchName = '$branchname'
     }
-    // Clone the Git repository
-    //stage('SCM Checkout') {
-      //  git url: gitRepoUrl, branch: "$branchName"
-   // }
 
-    // Build the Maven project
-    stage('Maven package') {
-        dir("my-app") {
-        sh 'mvn package'
+    stages {
+       // stage('Git clone') {
+         //   steps {
+                // Clone the Git repository
+           //     git url: "$gitRepoUrl", branch: "$branchName"             
+       // }
+  //  }
+        stage('Maven package') {
+            steps {
+                // Compile the Maven project
+                dir("my-app") {
+                    sh "mvn package"
+                }
+            }
+        } 
+         stage('Transfer') {
+            steps {
+              //  Transfer file in another machine
+                dir("my-app/target") {
+                    sh "scp my-app-1.jar/ sagar@192.168.1.9:/home/sagar"
+                }
+            }
         }
+    
     }
-    // Deploy the Maven project
-    stage('Transfer jar file') {
-        dir("my-app") {
-            // transfer file on another vm
-            sh 'scp my-app/targert/my-app.1.jar /sagar@192.168.1.9:/home/sagar'
-        }
-    }
-}
-
 }
